@@ -33,7 +33,7 @@ export class AuthService {
   }
 
   async login({ email, password }: LoginDto) {
-    const foundUser = await this.usersService.findOneByEmail(email);
+    const foundUser = await this.usersService.findOneByEmailWithPassword(email);
     if (!foundUser) {
       throw new NotFoundException('User not found, try again or register');
     }
@@ -47,6 +47,7 @@ export class AuthService {
       id: foundUser.id,
       name: foundUser.name,
       email: foundUser.email,
+      role: foundUser.role,
      };
     return {
       message: 'Login successful',
