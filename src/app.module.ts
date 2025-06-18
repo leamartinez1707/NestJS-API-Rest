@@ -6,13 +6,17 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
 import { User } from './users/entities/user.entity';
 import { ConfigModule } from '@nestjs/config';
+import { BreedsModule } from './breeds/breeds.module';
 import configuration from './config/configuration';
+import { Breed } from './breeds/entities/breed.entity';
+import { Cat } from './cats/entities/cat.entity';
 
 @Module({
   imports: [
     CatsModule,
     UsersModule,
     AuthModule,
+    BreedsModule,
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: configuration().database.host,
@@ -20,14 +24,14 @@ import configuration from './config/configuration';
       username: configuration().database.username,
       password: configuration().database.password,
       database: configuration().database.name,
-      entities: [User],
+      entities: [User, Breed, Cat],
       synchronize: true, // Note: set to false in production
     }),
     ConfigModule.forRoot({
       isGlobal: true, // Makes the configuration available globally
       envFilePath: '.env.local', // Load environment variables from .env file
       load: [configuration],
-    }),
+    })
   ],
   controllers: [],
   providers: [],

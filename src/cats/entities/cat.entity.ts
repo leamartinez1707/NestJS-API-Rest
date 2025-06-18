@@ -6,6 +6,7 @@ import {
   ManyToOne,
 } from 'typeorm';
 import { User } from 'src/users/entities/user.entity';
+import { Breed } from 'src/breeds/entities/breed.entity';
 
 @Entity()
 export class Cat {
@@ -22,10 +23,10 @@ export class Cat {
   @DeleteDateColumn()
   deletedAt: Date;
 
-  //   @ManyToOne(() => Breed, (breed) => breed.id, {
-  //     eager: true, // para que traiga las raza al hacer un findOne
-  //   })
-  //   breed: Breed;
+  @ManyToOne(() => Breed, (breed) => breed.id, {
+    eager: true, // para que traiga las raza al hacer un findOne
+  })
+  breed: Breed;
 
   @ManyToOne(() => User)
   @JoinColumn({ name: 'userEmail', referencedColumnName: 'email' })

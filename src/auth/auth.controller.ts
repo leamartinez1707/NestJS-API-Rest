@@ -1,10 +1,12 @@
-import { Body, Controller, Get, Post, Req } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
 import { Request } from 'express';
 import { Role } from 'src/common/role.enum';
 import { Auth } from './decorator/auth.decorator';
+import { ActiveUser } from 'src/common/decorators/active-user.decorator';
+import { UserActiveInterface } from 'src/common/interfaces';
 
 export interface RequestWithUser extends Request {
   user: {
@@ -17,7 +19,7 @@ export interface RequestWithUser extends Request {
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(private readonly authService: AuthService) { }
 
   @Post('register')
   register(
@@ -42,8 +44,8 @@ export class AuthController {
   //   return req.user; // Placeholder for user profile data
   // }
   @Get('profile')
-  @Auth(Role.User) // Use the Auth decorator to protect this route
-  getProfile(@Req() req: RequestWithUser) {
-    return req.user; // Placeholder for user profile data
+  @Auth(Role.Admin) // Use the Auth decorator to protect this route
+  getProfile(@ActiveUser() user: UserActiveInterface) {
+    return user; // Placeholder for user profile data 
   }
 }

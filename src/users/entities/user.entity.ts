@@ -20,7 +20,7 @@ export class User {
   @Column({ nullable: false, select: false })
   password: string;
 
-  @Column({ default: Role.User, enum: Role })
+  @Column({ type: 'enum', enum: Role, default: Role.User })
   role: string;
 
   @DeleteDateColumn()
